@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <output></output>
+    </div>
+</body>
+
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+<script>
+    var socket;
+
+    function connect() {
+        socket = io.connect('http://localhost:3000');
+
+        socket.on('connect', function() {
+            console.log('Connected');
+
+            socket.emit('join', '2121');
+        });
+
+        socket.on('disconnect', function() {
+            console.log('Disconnected');
+        });
+
+        socket.on('message', function(data) {
+            console.log(data);
+        });
+    }
+
+    setTimeout(() => connect(), 5000);
+</script>
+
+</html>
