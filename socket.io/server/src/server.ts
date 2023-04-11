@@ -2,7 +2,9 @@ import { Server } from 'socket.io';
 
 const PORT = 3000;
 
-const io = new Server(PORT);
+const io = new Server(PORT, {
+  cors: { origin: '*' },
+});
 
 io.on('connection', (client) => {
   console.log(`Client ${client.id} connected`);
