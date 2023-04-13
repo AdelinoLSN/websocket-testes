@@ -4,7 +4,7 @@ var socket = io.connect('http://localhost:3000');
 var browserInstances = [];
 
 socket.on('connect', () => {
-    postMessage('connected', browserInstances);
+    postMessage('connected');
 
     socket.emit('join', '2121');
 });
@@ -14,7 +14,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('message', function(data) {
-    postMessage(data, browserInstances);
+    postMessage(data);
 });
 
 onconnect = function(e) {
@@ -23,7 +23,7 @@ onconnect = function(e) {
     browserInstances.push(port);
 
     if (browserInstances.length > 1) {
-        postMessage('reconnected', [port]);
+        postMessageToInstance('reconnected', port);
     }
 
     port.onmessage = function(e) {
@@ -34,6 +34,10 @@ onconnect = function(e) {
 
 function postMessage(data, browserInstances) {
     browserInstances.map((browserInstance) => {
-        browserInstance.postMessage(data);
+        postMessageToInstance(data, browserInstance);
     });
+}
+
+function postMessageToInstance(data, browserInstance) {
+    browserInstance.postMessage(data);
 }
