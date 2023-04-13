@@ -14,7 +14,7 @@
 
 <script>
     // SharedWorker
-    const sharedWorker = new SharedWorker('parte2.js');
+    const sharedWorker = new SharedWorker('sharedWorker.js');
     sharedWorker.port.onmessage = (event) => {
         console.log('index: onmessage', event.data);
     };
