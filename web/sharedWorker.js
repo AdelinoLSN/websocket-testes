@@ -1,31 +1,3 @@
-console.log('Loaded parte2.js');
-
-// var browserInstances = [];
-    
-// onconnect = function(e) {
-//     const port = e.ports[0];
-
-//     if (!io) connectIo();
-
-//     browserInstances.push(port);
-
-//     postMessage(browserInstances, e.data);
-// }
-
-// function postMessage(browserInstances, data) {
-//     browserInstances.forEach((browserInstance) => {
-//         browserInstance.postMessage(data);
-//     });
-// }
-
-// function connectIo() {
-//     io = io.connect('http://localhost:3000');
-
-//     io.on('connect', function() {
-//         postMessage(browserInstances, 'connected');
-//     });
-// }
-
 importScripts('https://cdn.socket.io/4.6.0/socket.io.min.js');
 
 var socket = io.connect('http://localhost:3000');
