@@ -1,51 +1,30 @@
 const sharedWorker = new SharedWorker('sharedWorker.js');
 sharedWorker.port.onmessage = (event) => {
     console.log('[app][onmessage]:', event.data);
-
-    const unhandedMessages = ['connected', 'disconnected', 'reconnected'];
-
-    if (unhandedMessages.includes(event.data)) handleEvents(event.data);
-    else handleMessages(event.data);
+    
+    const events = ['connected', 'disconnected', 'reconnected'];
+    if (events.includes(event.data)) handleEvent(event.data);
+    else handleMessage(event.data);
 };
 
-function handleEvents(event) {
-    if (event === 'connected') {
-        console.log('[app][handleEvents]: connected');
-        clearMessagesLocalStorage();
-    } else if (event === 'disconnected') {
-        console.log('[app][handleEvents]: disconnected');
-    } else if (event === 'reconnected') {
-        console.log('[app][handleEvents]: reconnected');
-        showMessagesLocalStorage();
+function handleEvent(event) {
+    if (['connected', 'reconnected'].includes(event)) {
+        sharedWorker?.port.postMessage('messages');
     }
 }
 
-function clearMessagesLocalStorage() {
-    localStorage.setItem('messages', JSON.stringify([]));
+function handleMessage(message) {
+    const notShow = ['messages'];
+    if (notShow.includes(message)) return;
+
+    if (typeof message === 'string') showMessage(message);
+
+    if (typeof message === 'object') message.map((m) => showMessage(m));
 }
 
-function showMessagesLocalStorage() {
-    const messages = JSON.parse(localStorage.getItem('messages'));
-    messages.map((message) => addMessageToView(message));
-}
-
-function handleMessages(message) {
-    console.log('[app][handleMessages]:', message);
-    addMessageToView(message);
-    addMessageToLocalStorage(message);
-}
-
-function addMessageToView(message) {
+function showMessage(message) {
     const messages = document.getElementById('messages');
-    const li = document.createElement('li');
-    li.appendChild(document.createTextNode(message));
-    messages.appendChild(li);
-}
-
-function addMessageToLocalStorage(message) {
-    const messages = JSON.parse(localStorage.getItem('messages'));
-    messages.push(message);
-    localStorage.setItem('messages', JSON.stringify(messages));
+    messages.innerHTML += `<li>${message}</li>`;
 }
 
 // Button

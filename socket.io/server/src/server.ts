@@ -20,6 +20,12 @@ io.on('connection', (client) => {
 
   client.on('message', (message) => {
     console.log(`[message] Client ${client.id} sent message: ${message}`);
+    messages.push(message);
+  });
+
+  client.on('messages', (room) => {
+    console.log(`[messages] Client ${client.id} requested messages from room ${room}`);
+    client.emit('messages', messages);
   });
 });
 
@@ -27,3 +33,15 @@ io.on('connection', (client) => {
 setInterval(() => {
   io.to('2121').emit('message', 'Hello world (2121)');
 }, 10000);
+
+var messages = mockMessages();
+
+function mockMessages() {
+  const messages: any = [];
+
+  for (let i = 0; i < 10; i++) {
+    messages.push(`Message ${i}`);
+  }
+
+  return messages;
+}

@@ -17,6 +17,10 @@ socket.on('message', function(data) {
     postMessage(data);
 });
 
+socket.on('messages', function(data) {
+    postMessage(data);
+});
+
 onconnect = function(e) {
     const port = e.ports[0];
 
@@ -27,6 +31,10 @@ onconnect = function(e) {
     }
 
     port.onmessage = function(e) {
+        if (e.data === 'messages') {
+            socket.emit('messages');
+            return;
+        }
         socket.emit('message', e.data);
         postMessage(e.data, browserInstances);
     }
