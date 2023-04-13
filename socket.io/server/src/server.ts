@@ -23,3 +23,8 @@ io.on('connection', (client) => {
 setInterval(() => {
   io.to('2121').emit('message', 'Hello world (2121)');
 }, 30000);
+
+// Each 30 seconds, emit a message to every client
+setInterval(() => {
+  io.emit('message', 'Hello world');
+}, 5000);
