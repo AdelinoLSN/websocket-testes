@@ -32,7 +32,7 @@ onconnect = function(e) {
     }
 };
 
-function postMessage(data, browserInstances) {
+function postMessage(data) {
     browserInstances.map((browserInstance) => {
         postMessageToInstance(data, browserInstance);
     });
