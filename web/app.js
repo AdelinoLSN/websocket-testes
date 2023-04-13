@@ -1,6 +1,6 @@
 const sharedWorker = new SharedWorker('sharedWorker.js');
 sharedWorker.port.onmessage = (event) => {
-    console.log('index: onmessage', event.data);
+    console.log('[app][onmessage]:', event.data);
 };
 
 // Button

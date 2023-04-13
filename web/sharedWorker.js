@@ -24,6 +24,7 @@ onconnect = function(e) {
 
     port.onmessage = function(e) {
         socket.emit('message', e.data);
+        postMessage(e.data);
     }
 };
 
